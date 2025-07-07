@@ -1,0 +1,799 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>the bear ($BBC) - The Original Standard</title>
+    <meta name="description" content="the bear ($BBC) is the retro, OG standard in a world of noise. Uncomplicated. Unflappable.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* ---
+        Design System & Variables
+        --- */
+        :root {
+            --orange: #FF8C00;
+            --black: #0D0D0D;
+            --white: #F5F5F5;
+            --grey: #BFBFBF;
+
+            --font-heading: 'Roboto', sans-serif;
+            --font-body: 'Roboto', sans-serif;
+            --font-mono: 'Roboto Mono', monospace;
+
+            --header-height: 70px;
+            --border-radius: 8px;
+        }
+
+        /* ---
+        Base & Reset
+        --- */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: var(--header-height);
+        }
+
+        body {
+            background-color: var(--black);
+            color: var(--white);
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ---
+        Typography & General Styles
+        --- */
+        h1, h2, h3 {
+            font-family: var(--font-heading);
+            font-weight: 900;
+            line-height: 1.2;
+            color: var(--white);
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 10vw, 4.5rem);
+        }
+
+        h2 {
+            font-size: clamp(2rem, 8vw, 3rem);
+            color: var(--orange);
+            margin-bottom: 2rem;
+        }
+
+        h3 {
+            font-size: clamp(1.25rem, 5vw, 1.5rem);
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            max-width: 65ch;
+        }
+
+        a {
+            color: var(--orange);
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--white);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 6rem 0;
+        }
+
+        .section {
+            border-bottom: 2px solid rgba(255, 140, 0, 0.2);
+        }
+        .section:last-of-type {
+            border-bottom: none;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ---
+        Buttons
+        --- */
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--orange);
+            color: var(--black);
+            border-color: var(--orange);
+        }
+
+        .btn-primary:hover {
+            background-color: transparent;
+            color: var(--orange);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--white);
+            border-color: var(--white);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--white);
+            color: var(--black);
+        }
+
+        /* ---
+        Header & Navigation
+        --- */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            background-color: rgba(13, 13, 13, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 140, 0, 0.1);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-img {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+        }
+
+        .logo-text {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--white);
+        }
+
+        .nav-links {
+            display: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            font-family: var(--font-mono);
+            font-weight: 400;
+            font-size: 1rem;
+        }
+
+        .mobile-nav-toggle {
+            display: block;
+            cursor: pointer;
+            z-index: 1001;
+            background: none;
+            border: none;
+        }
+
+        .hamburger {
+            width: 24px;
+            height: 2px;
+            background-color: var(--white);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .hamburger::before,
+        .hamburger::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 2px;
+            background-color: var(--white);
+            left: 0;
+            transition: all 0.3s ease;
+        }
+        .hamburger::before { top: -8px; }
+        .hamburger::after { top: 8px; }
+
+        .mobile-nav-toggle.active .hamburger {
+            background-color: transparent;
+        }
+        .mobile-nav-toggle.active .hamburger::before {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .mobile-nav-toggle.active .hamburger::after {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--black);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            transform: translateY(-100%);
+            transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            transform: translateY(0);
+        }
+
+        .mobile-menu a {
+            font-size: 1.5rem;
+            font-family: var(--font-mono);
+        }
+
+        /* ---
+        Hero Section
+        --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: var(--header-height);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            z-index: 2;
+        }
+
+        .hero-logo {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 2rem;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero h1 {
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--grey);
+            max-width: 50ch;
+            margin: 0 auto 2.5rem;
+            font-family: var(--font-mono);
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .walking-bear {
+            position: absolute;
+            bottom: 10px;
+            left: -100px; /* Start off-screen */
+            width: 80px;
+            height: 80px;
+            background-image: url('https://yoahusjzxyasdporfmmt.supabase.co/storage/v1/object/public/token-logos/376d886d-528b-4f3a-814a-ffa043d65c26.png?');
+            background-size: contain;
+            background-repeat: no-repeat;
+            animation: walkAcross 30s linear infinite;
+            z-index: 1;
+            opacity: 0.1;
+        }
+
+        /* ---
+        About Section
+        --- */
+        .about-grid {
+            display: grid;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-image {
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: var(--orange);
+            border-radius: var(--border-radius);
+        }
+        .about-image img {
+            width: 100%;
+            display: block;
+        }
+
+        /* ---
+        Tokenomics Section
+        --- */
+        .tokenomics-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .tokenomics-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 140, 0, 0.2);
+            text-align: center;
+        }
+
+        .tokenomics-card h3 {
+            color: var(--orange);
+            margin-bottom: 0.5rem;
+            font-family: var(--font-mono);
+        }
+
+        .tokenomics-card p {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0;
+            font-family: var(--font-mono);
+        }
+
+        .contract-address {
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .contract-address p {
+            font-family: var(--font-mono);
+            word-break: break-all;
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+        }
+
+        .copy-btn {
+            background: none;
+            border: 1px solid var(--grey);
+            color: var(--grey);
+            padding: 8px 16px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-family: var(--font-mono);
+            transition: all 0.3s ease;
+        }
+        .copy-btn:hover {
+            background-color: var(--orange);
+            color: var(--black);
+            border-color: var(--orange);
+        }
+
+        /* ---
+        How to Buy Section
+        --- */
+        .how-to-buy-step {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .step-number {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--orange);
+            line-height: 1;
+            font-family: var(--font-mono);
+        }
+
+        .step-content h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        /* ---
+        Roadmap Section
+        --- */
+        .roadmap-timeline {
+            position: relative;
+            padding-left: 40px;
+            border-left: 3px solid var(--orange);
+        }
+
+        .roadmap-item {
+            position: relative;
+            margin-bottom: 3rem;
+        }
+        .roadmap-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .roadmap-item::before {
+            content: '';
+            position: absolute;
+            left: -48px;
+            top: 5px;
+            width: 15px;
+            height: 15px;
+            background-color: var(--black);
+            border: 3px solid var(--orange);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .roadmap-item h3 {
+            color: var(--orange);
+        }
+        
+        .roadmap-item ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 0.5rem;
+        }
+        
+        .roadmap-item li {
+            position: relative;
+            padding-left: 20px;
+            color: var(--grey);
+        }
+        
+        .roadmap-item li::before {
+            content: '»';
+            position: absolute;
+            left: 0;
+            color: var(--orange);
+        }
+
+        /* ---
+        Community Section
+        --- */
+        .community {
+            text-align: center;
+        }
+        
+        .community p {
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 2rem;
+        }
+
+        /* ---
+        Footer
+        --- */
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--grey);
+            font-family: var(--font-mono);
+        }
+
+        /* ---
+        Animations & Media Queries
+        --- */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes walkAcross {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(100vw + 100px)); }
+        }
+
+        @media (min-width: 768px) {
+            .nav-links {
+                display: flex;
+            }
+            .mobile-nav-toggle {
+                display: none;
+            }
+            .hero-buttons {
+                flex-direction: row;
+                justify-content: center;
+            }
+            .about-grid {
+                grid-template-columns: 1fr 2fr;
+                text-align: left;
+            }
+            .about-image {
+                margin: 0;
+            }
+            .tokenomics-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <a href="#hero" class="logo-container">
+            <img src="https://yoahusjzxyasdporfmmt.supabase.co/storage/v1/object/public/token-logos/376d886d-528b-4f3a-814a-ffa043d65c26.png?" alt="the bear logo" class="logo-img">
+            <span class="logo-text">$BBC</span>
+        </a>
+        <nav class="nav-links">
+            <a href="#about">About</a>
+            <a href="#tokenomics">Tokenomics</a>
+            <a href="#buy">How to Buy</a>
+            <a href="#roadmap">Roadmap</a>
+        </nav>
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation">
+            <div class="hamburger"></div>
+        </button>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <a href="#about">About</a>
+        <a href="#tokenomics">Tokenomics</a>
+        <a href="#buy">How to Buy</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="https://app.uniswap.org/" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="margin-top: 2rem;">Buy Now</a>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="hero">
+            <div class="hero-content fade-in">
+                <img src="https://yoahusjzxyasdporfmmt.supabase.co/storage/v1/object/public/token-logos/376d886d-528b-4f3a-814a-ffa043d65c26.png?" alt="the bear logo" class="hero-logo">
+                <h1>THE ORIGINAL STANDARD</h1>
+                <p>Cool. Calm. Collected. This is the bear.</p>
+                <div class="hero-buttons">
+                    <a href="https://app.uniswap.org/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Buy on Uniswap</a>
+                    <a href="#about" class="btn btn-secondary">Learn More</a>
+                </div>
+            </div>
+            <div class="walking-bear"></div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="container">
+                <div class="about-grid fade-in">
+                    <div class="about-image">
+                        <img src="https://yoahusjzxyasdporfmmt.supabase.co/storage/v1/object/public/token-logos/376d886d-528b-4f3a-814a-ffa043d65c26.png?" alt="the bear silhouette">
+                    </div>
+                    <div class="about-text">
+                        <h2>UNSHAKEN. UNCOMPLICATED.</h2>
+                        <p>In a world of constant noise and fleeting trends, the bear walks its own path. It represents a return to something fundamental: a steady presence, a retro cool, an undeniable authenticity.</p>
+                        <p>This is for those who recognize the real OG. The black glasses aren't just an accessory; they're a mindset. They signify a clear vision that cuts through the hype. The bear is the benchmark.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tokenomics Section -->
+        <section id="tokenomics" class="section">
+            <div class="container">
+                <h2 class="fade-in" style="text-align: center;">TOKENOMICS</h2>
+                <div class="tokenomics-grid">
+                    <div class="tokenomics-card fade-in" style="transition-delay: 100ms;">
+                        <h3>Total Supply</h3>
+                        <p>1,000,000,000</p>
+                    </div>
+                    <div class="tokenomics-card fade-in" style="transition-delay: 200ms;">
+                        <h3>Taxes</h3>
+                        <p>0% Buy / 0% Sell</p>
+                    </div>
+                    <div class="tokenomics-card fade-in" style="transition-delay: 300ms;">
+                        <h3>Ticker</h3>
+                        <p>$BBC</p>
+                    </div>
+                </div>
+                <div class="contract-address fade-in" style="transition-delay: 400ms;">
+                    <h3>Contract Address</h3>
+                    <p id="contract">0xFf7d6A96ae471BbCD7713aF9CB1fEeB16cf56B41</p>
+                    <button class="copy-btn" id="copyButton">Copy Address</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- How to Buy Section -->
+        <section id="buy" class="section">
+            <div class="container">
+                <h2 class="fade-in" style="text-align: center;">HOW TO GET $BBC</h2>
+                <div class="how-to-buy-steps">
+                    <div class="how-to-buy-step fade-in">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>CREATE A WALLET</h3>
+                            <p>Download MetaMask or your wallet of choice from the App Store or Google Play. Desktop users can install the browser extension from metamask.io.</p>
+                        </div>
+                    </div>
+                    <div class="how-to-buy-step fade-in">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>GET SOME ETH</h3>
+                            <p>Have ETH in your wallet to swap for $BBC. If you don't have any ETH, you can buy it on MetaMask, transfer from another wallet, or buy on an exchange and send it to your wallet.</p>
+                        </div>
+                    </div>
+                    <div class="how-to-buy-step fade-in">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>GO TO UNISWAP</h3>
+                            <p>Connect to Uniswap. Go to app.uniswap.org in your browser or on the browser inside your MetaMask app. Connect your wallet. Paste the $BBC token address into Uniswap, select BBC, and confirm.</p>
+                        </div>
+                    </div>
+                    <div class="how-to-buy-step fade-in">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>SWAP FOR $BBC</h3>
+                            <p>Swap your ETH for $BBC. Confirm the transaction in your wallet and welcome to the club. There are no taxes, but you'll need to account for gas fees.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Roadmap Section -->
+        <section id="roadmap" class="section">
+            <div class="container">
+                <h2 class="fade-in" style="text-align: center;">THE PATH</h2>
+                <div class="roadmap-timeline fade-in">
+                    <div class="roadmap-item">
+                        <h3>Phase 1: The First Steps</h3>
+                        <ul>
+                            <li>Token Launch</li>
+                            <li>Website & Socials Live</li>
+                            <li>Community Building</li>
+                            <li>DEX Listings (Uniswap)</li>
+                        </ul>
+                    </div>
+                    <div class="roadmap-item">
+                        <h3>Phase 2: Finding the Rhythm</h3>
+                        <ul>
+                            <li>CoinGecko & CoinMarketCap Listing</li>
+                            <li>Community Contests & Events</li>
+                            <li>First Wave of Marketing</li>
+                            <li>Building the OG Brand</li>
+                        </ul>
+                    </div>
+                    <div class="roadmap-item">
+                        <h3>Phase 3: The Long Walk</h3>
+                        <ul>
+                            <li>Strategic Partnerships</li>
+                            <li>Expanding the Ecosystem</li>
+                            <li>CEX Listing Considerations</li>
+                            <li>Establishing the Bear Standard</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Community Section -->
+        <section id="community" class="section">
+            <div class="container community">
+                <h2 class="fade-in">JOIN THE DEN</h2>
+                <p class="fade-in">The real ones know where to find us. The Bear's community is growing on platforms like X and Telegram. Search for $BBC and join the conversation.</p>
+                <a href="https://app.uniswap.org/" target="_blank" rel="noopener noreferrer" class="btn btn-primary fade-in">Buy $BBC Now</a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 the bear ($BBC). All Rights Reserved.</p>
+        <p>This token is for entertainment purposes. Always do your own research.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Mobile Navigation ---
+            const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const navLinks = document.querySelectorAll('.mobile-menu a');
+
+            mobileNavToggle.addEventListener('click', () => {
+                mobileNavToggle.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+                // Prevent scrolling when menu is open
+                document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+            });
+
+            // Close menu when a link is clicked
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileNavToggle.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
+
+            // --- Copy to Clipboard ---
+            const copyButton = document.getElementById('copyButton');
+            const contractAddress = document.getElementById('contract').textContent;
+
+            if (copyButton) {
+                copyButton.addEventListener('click', () => {
+                    navigator.clipboard.writeText(contractAddress).then(() => {
+                        copyButton.textContent = 'Copied!';
+                        setTimeout(() => {
+                            copyButton.textContent = 'Copy Address';
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('Failed to copy: ', err);
+                    });
+                });
+            }
+
+            // --- Scroll Animations ---
+            const faders = document.querySelectorAll('.fade-in');
+            const appearOptions = {
+                threshold: 0.2,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+
+</body>
+</html>
+```
